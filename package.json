@@ -23,5 +23,5 @@
     "sequelize-cli": "^6.6.2",
     "web3": "^4.8.0"
   },
-  "type": "commonjs"
+  "type": "module"
 }

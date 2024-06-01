@@ -1,6 +1,6 @@
 // models/User.js
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+import { Model, DataTypes }from 'sequelize';
+import sequelize from '../config/database.js';
 
 class User extends Model {}
 
@@ -31,4 +31,4 @@ User.init({
   timestamps: true // Add timestamps (createdAt, updatedAt)
 });
 
-module.exports = User;
+export default User;
