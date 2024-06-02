@@ -1,9 +1,9 @@
 import express from "express";
 import router from  './src/api/routes/apiRoute.js'
 import bodyParser from 'body-parser'
-
-
+import dotenv from 'dotenv';
 const app = express();
+dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api',router);
