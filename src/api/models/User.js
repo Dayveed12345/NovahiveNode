@@ -2,7 +2,12 @@
 import { Model, DataTypes }from 'sequelize';
 import sequelize from '../config/database.js';
 
-class User extends Model {}
+class User extends Model {
+  static associate(models) {
+    User.hasMany(models.Issue,{foreignKey:'public_key'});
+    User.hasMany(models.Profile,{foreignKey:'public_key'});
+  }
+}
 
 User.init({
   id: {
