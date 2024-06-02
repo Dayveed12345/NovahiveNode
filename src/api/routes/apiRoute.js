@@ -5,6 +5,9 @@ import authentication from '../controllers/authController.js'
 const router=express.Router()
 router.post('/login',authentication.login)
 router.post('/signup',authentication.signup)
+router.get('/',function(req,res){
+    res.send("Yes the server is live!!!!!!!!")
+})
 // router.post('/profile/edit',{},profile.edit);
 // router.get('/profile',{},profile.index);
 // router.get('/profile/:id',{},profile.show);
