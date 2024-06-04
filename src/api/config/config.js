@@ -1,9 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
 const development = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT,
+  dialect: 'mysql',
 };
 
 const test = {
@@ -11,7 +13,7 @@ const test = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT,
+  dialect: 'mysql',
 };
 
 const production = {
@@ -19,16 +21,17 @@ const production = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT,
+  dialect: 'mysql',
 };
 
 let configuration;
 
 if (process.env.NODE_ENV === 'development') {
-  configuration = { development };
+  configuration = development;
 } else if (process.env.NODE_ENV === 'production') {
-  configuration = { production};
-} else{
-  configuration = { test };
+  configuration = production;
+} else {
+  configuration = test;
 }
+
 export default configuration;

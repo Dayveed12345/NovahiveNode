@@ -1,11 +1,11 @@
-// models/User.js
-import { Model, DataTypes }from 'sequelize';
+'use strict';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 class User extends Model {
   static associate(models) {
-    User.hasMany(models.Issue,{foreignKey:'public_key'});
-    User.hasMany(models.Profile,{foreignKey:'public_key'});
+    User.hasOne(models.Profile, { foreignKey: 'public_key', sourceKey: 'public_key' });
+    User.hasMany(models.Issue, { foreignKey: 'public_key', sourceKey: 'public_key' });
   }
 }
 
@@ -25,14 +25,13 @@ User.init({
     allowNull: false,
     unique: true
   },
- password: {
+  password: {
     type: DataTypes.STRING,
     allowNull: false,
   }
-},
- {
+}, {
   sequelize,
-  modelName: 'users',
+  modelName: 'User',
   timestamps: true // Add timestamps (createdAt, updatedAt)
 });
 

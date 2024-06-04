@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      role: {
+        type: Sequelize.ENUM('Client','Freelancer'),
+        allowNull: true,
+      },
       rating: {
         type: Sequelize.INTEGER,
         allowNull: true,
