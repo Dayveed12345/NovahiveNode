@@ -3,7 +3,7 @@ import { generateToken } from '../helpers/security.js'
 import User from '../models/User.js'
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt'
-class Auth {
+class AuthController {
     async signup(req, res) {
         try {
             const { public_key, email, password } = req.body;
@@ -74,4 +74,4 @@ class Auth {
     }
 
 }
-export default new Auth
+export default new AuthController
