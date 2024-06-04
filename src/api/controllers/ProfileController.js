@@ -120,8 +120,6 @@ class ProfileController {
             });
         }
     }
-
-
     async update(req, res) {
         const publicKey = req.params.publicKey;
         try {
@@ -149,4 +147,4 @@ class ProfileController {
     }
     
 }
-export default new ProfileController
+export default new  ProfileController

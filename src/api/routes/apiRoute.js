@@ -9,10 +9,10 @@ router.post('/signup',authentication.signup)
 router.get('/',function(req,res){
     res.send("Yes the server is live!!!!!!!!")
 })
-router.post('/profile/',{authmiddleware},profile.create);
-router.patch('/profile/:publicKey',{authmiddleware},profile.update);
-router.get('/profile/',{authmiddleware},profile.index);
-router.get('/profile/:publicKey',{authmiddleware},profile.show);
+router.post('/profile',authmiddleware,profile.create);
+router.patch('/profile/:publicKey',authmiddleware,profile.update);
+router.get('/profile/',authmiddleware,profile.index);
+router.get('/profile/:publicKey',authmiddleware,profile.show);
 
 
 // router.get('/profile/:publicKey',{},payment.show);
