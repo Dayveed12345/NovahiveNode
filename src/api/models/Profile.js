@@ -50,7 +50,7 @@ Profile.init({
   }
 }, {
   sequelize,
-  modelName: 'profile',
+  modelName: 'Profile',
   timestamps: false
 });
 

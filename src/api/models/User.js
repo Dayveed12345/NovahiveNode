@@ -31,7 +31,7 @@ User.init({
   }
 }, {
   sequelize,
-  modelName: 'User',
+  modelName: 'user',
   timestamps: true // Add timestamps (createdAt, updatedAt)
 });
 
