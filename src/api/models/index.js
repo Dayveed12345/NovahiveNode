@@ -3,8 +3,8 @@
 import path from 'path';
 import { Sequelize } from 'sequelize';
 import sequelize from '../config/database.js';
-import User from './user.js';
-import Profile from './profile.js';
+import User from './User.js';
+import Profile from './Profile.js';
 
 // Initialize models
 const models = {
