@@ -26,8 +26,9 @@ module.exports = {
         allowNull: true,
       },
       rating: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: true,
+        defaultValue:0
       },
       experience: {
         type: Sequelize.TEXT,
@@ -36,6 +37,10 @@ module.exports = {
       skill: {
         type: Sequelize.TEXT,
         allowNull: true,
+      },
+      user_id:{
+        type:Sequelize.INTEGER,
+        allowNull:false
       },
       createdAt: {
         allowNull: false,

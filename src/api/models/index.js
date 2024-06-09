@@ -26,10 +26,8 @@ Object.values(models).forEach(model => {
   }
 });
 
-// // Associate models
-// User.associate({ Profile });
-// Profile.associate({ User });
-
+User.hasOne(Profile, { as: 'profile', foreignKey: 'user_id' });
+// Profile.belongsTo(User, { as: 'user', foreignKey: 'id' });
 const db = {
   sequelize,
   Sequelize,

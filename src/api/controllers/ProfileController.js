@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import db from '../models/index.js';
-
+import profiles from '../models/Profile.js'
 const { User, Profile } = db;
 
 class ProfileController {
@@ -23,7 +23,6 @@ class ProfileController {
                 experience: user.profile ? user.profile.experience : 0,
                 rating: user.profile ? user.profile.rating : 0,
             }));
-
             res.status(200).json({
                 StatusCode: 200,
                 data: response
@@ -38,18 +37,18 @@ class ProfileController {
     }
 
     async show(req, res) {
-        const publicKey = req.params.public_key;
+        const public_key = req.params.public_key;
 
-        if (!publicKey || publicKey.trim() === '') {
+        if (!public_key || public_key.trim() ==='') {
             return res.status(422).json({
                 StatusCode: 422,
                 data: "Invalid User"
             });
         }
 
-        try {
+        try {           
             const user = await User.findOne({
-                where: { public_key: publicKey },
+                where: { public_key: public_key },
                 attributes: ['public_key', 'email'],
                 include: [{
                     model: Profile,
@@ -90,23 +89,47 @@ class ProfileController {
 
     async create(req, res) {
         try {
-            const { user_id, experience, rating, picture, role, skill } = req.body;
-            if (!user_id || !experience || !skill || !role) {
+            const { public_key, name, experience, rating, picture, role, skill } = req.body;
+            if (!public_key || !name|| !experience || !skill || !role) {
                 return res.status(422).json({
                     StatusCode: 422,
-                    message: "user_id, experience, skill, and role are required."
+                    message: "public_key, experience, skill, and role are required."
                 });
             }
-
-            const profile = await Profile.create({
-                user_id,
-                experience,
-                rating,
-                picture,
-                role,
-                skill,
+            const existingProfile = await Profile.findOne({
+                where: { public_key: public_key }
             });
-
+    
+            if (existingProfile) {
+                return res.status(409).json({
+                    StatusCode: 409,
+                    message: "Profile already exist"
+                });
+            }
+            const user = await User.findOne({
+                where: { public_key: public_key },
+                attributes: ['id']
+            });
+            console.log(user.id);
+    
+            if (!user) {
+                return res.status(404).json({
+                    StatusCode: 404,
+                    message: "User not found"
+                });
+            }
+            // Create the new profile
+            const profile = await profiles.create({
+                public_key: public_key,
+                name: name,
+                experience: experience,
+                rating: rating,
+                picture: picture,
+                role: role,
+                skill: skill,
+                user_id: user.id
+            });
+    
             res.status(201).json({
                 StatusCode: 201,
                 message: "Profile created successfully.",
@@ -116,11 +139,11 @@ class ProfileController {
             console.error('Error creating profile:', error);
             res.status(500).json({
                 StatusCode: 500,
-                message: "Server Error"
+                message: "Server Error: " + error.message
             });
         }
     }
-
+    
     async update(req, res) {
         const public_key = req.params.public_key;
         try {

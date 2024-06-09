@@ -3,12 +3,12 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 class User extends Model {
-  static associate(models) {
-    // User.hasOne(models.Profile, {
-    //   foreignKey: '',
-    //   sourceKey: 'foreign_key'
-    // });
-  }
+  // static associate(models) {
+  //   User.hasOne(models.Profile, {
+  //     foreignKey: 'id',
+  //     sourceKey: 'id'
+  //   });
+  // }
 }
 
 User.init({

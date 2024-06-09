@@ -49,7 +49,7 @@
 
 /**
  * @swagger
- * /profile/{publicKey}:
+ * /profile/{public_key}:
  *   patch:
  *     summary: Update an existing profile
  *     tags: [Profiles]
@@ -57,7 +57,7 @@
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: publicKey
+ *         name: public_key
  *         schema:
  *           type: string
  *         required: true
@@ -105,7 +105,7 @@
 
 /**
  * @swagger
- * /profile/{publicKey}:
+ * /profile/{public_key}:
  *   get:
  *     summary: Get a profile by public key
  *     tags: [Profiles]
@@ -113,7 +113,7 @@
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: publicKey
+ *         name: public_key
  *         schema:
  *           type: string
  *         required: true

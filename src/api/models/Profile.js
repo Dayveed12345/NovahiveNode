@@ -3,9 +3,9 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 class Profile extends Model {
-  static associate(models) {
-    Profile.belongsTo(models.User, { foreignKey: 'id', targetKey: 'id' });
-  }
+  // static associate(models) {
+  //   Profile.belongsTo(models.User, { foreignKey: 'id', targetKey: 'id' });
+  // }
 }
 
 Profile.init({
@@ -23,16 +23,16 @@ Profile.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  role: {
-    type: DataTypes.ENUM('Client', 'Freelancer'),
-    allowNull: false
-  },
   picture: {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  role: {
+    type: DataTypes.ENUM('Client', 'Freelancer'),
+    allowNull: false
+  },
   rating: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
   experience: {
@@ -43,10 +43,9 @@ Profile.init({
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  active_status: {
-    type: DataTypes.ENUM('0', '1'),
-    allowNull: false,
-    defaultValue: '0'
+  user_id:{
+    type: DataTypes.INTEGER,
+    allowNull: false, 
   }
 }, {
   sequelize,
