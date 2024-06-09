@@ -5,18 +5,13 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey:true,
         type: Sequelize.INTEGER
       },
       public_key: {
         type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: 'Profiles',
-          key: 'public_key'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+       unique:true
       },
       title: {
         type: Sequelize.STRING,

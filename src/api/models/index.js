@@ -1,45 +1,39 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
-const db = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-const models = {
-  User: require('./User.js').default,
-  Profile: require('./Profile.js').default,
-  Issue: require('./Issue.js').default,
-};
+import path from 'path';
+import { Sequelize } from 'sequelize';
+import sequelize from '../config/database.js';
+import User from './user.js';
+import Profile from './profile.js';
 
 // Initialize models
-Object.keys(models).forEach(modelName => {
-  const model = models[modelName];
+const models = {
+  User,
+  Profile
+};
+
+Object.values(models).forEach(model => {
   model.init(model.attributes, {
     sequelize,
-    modelName: modelName.toLowerCase()
+    modelName: model.name.toLowerCase()
   });
-  db[modelName] = model;
 });
 
 // Associate models
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+Object.values(models).forEach(model => {
+  if (model.associate) {
+    model.associate(models);
   }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// // Associate models
+// User.associate({ Profile });
+// Profile.associate({ User });
 
-module.exports = db;
+const db = {
+  sequelize,
+  Sequelize,
+  User,
+  Profile
+};
+export default db;

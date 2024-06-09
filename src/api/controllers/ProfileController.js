@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
-import User from '../models/User.js';
-import Profile from '../models/Profile.js';
+import db from '../models/index.js';
+
+const { User, Profile } = db;
 
 class ProfileController {
     async index(req, res) {
@@ -9,17 +10,18 @@ class ProfileController {
                 attributes: ['public_key', 'email'],
                 include: [{
                     model: Profile,
-                    attributes: ['experience', 'rating']
+                    attributes: ['experience', 'rating'],
+                    as: 'profile'
                 }]
             });
 
-            console.log(`This is the ${JSON.stringify(users)}`); // Adjusted logging
+            console.log(`This is the ${JSON.stringify(users)}`);
 
             const response = users.map(user => ({
                 email: user.email,
                 public_key: user.public_key,
-                experience: user.Profile ? user.Profile.experience : 0,
-                rating: user.Profile ? user.Profile.rating : 0,
+                experience: user.profile ? user.profile.experience : 0,
+                rating: user.profile ? user.profile.rating : 0,
             }));
 
             res.status(200).json({
@@ -30,7 +32,7 @@ class ProfileController {
             console.error('Error fetching users with Profiles:', err);
             res.status(500).json({
                 StatusCode: 500,
-                message: "Server Error: " + err.message // Adjusted error message
+                message: "Server Error: " + err.message
             });
         }
     }
@@ -48,10 +50,11 @@ class ProfileController {
         try {
             const user = await User.findOne({
                 where: { public_key: publicKey },
-                attributes: ['id', 'email', 'public_key'],
+                attributes: ['public_key', 'email'],
                 include: [{
                     model: Profile,
-                    attributes: ['experience', 'rating', 'picture', 'role', 'skill', 'active_status']
+                    attributes: ['experience', 'rating', 'picture', 'role', 'skill'],
+                    as: 'profile'
                 }]
             });
 
@@ -64,13 +67,12 @@ class ProfileController {
 
             const response = {
                 email: user.email,
-                publicKey: user.public_key,
-                experience: user.Profile ? user.Profile.experience : null,
-                skill: user.Profile ? user.Profile.skill : null,
-                active_status: user.Profile ? user.Profile.active_status : null,
-                rating: user.Profile ? user.Profile.rating : null,
-                picture: user.Profile ? user.Profile.picture : null,
-                role: user.Profile ? user.Profile.role : null,
+                public_key: user.public_key,
+                experience: user.profile ? user.profile.experience : null,
+                skill: user.profile ? user.profile.skill : null,
+                rating: user.profile ? user.profile.rating : null,
+                picture: user.profile ? user.profile.picture : null,
+                role: user.profile ? user.profile.role : null,
             };
 
             res.status(200).json({
@@ -88,20 +90,20 @@ class ProfileController {
 
     async create(req, res) {
         try {
-            const { public_key, name, role, picture, experience, skill } = req.body;
-            if (!public_key || !name || !role || !experience || !skill) {
+            const { user_id, experience, rating, picture, role, skill } = req.body;
+            if (!user_id || !experience || !skill || !role) {
                 return res.status(422).json({
                     StatusCode: 422,
-                    message: "public_key, name, role, experience and skill are required."
+                    message: "user_id, experience, skill, and role are required."
                 });
             }
 
             const profile = await Profile.create({
-                public_key,
-                name,
-                role,
-                picture,
+                user_id,
                 experience,
+                rating,
+                picture,
+                role,
                 skill,
             });
 
@@ -120,11 +122,11 @@ class ProfileController {
     }
 
     async update(req, res) {
-        const publicKey = req.params.public_key;
+        const public_key = req.params.public_key;
         try {
-            const [updated] = await Profile.update(req.body, { where: { public_key: publicKey } });
+            const [updated] = await Profile.update(req.body, { where: { public_key: public_key } });
             if (updated) {
-                const updatedProfile = await Profile.findOne({ where: { public_key: publicKey } });
+                const updatedProfile = await Profile.findOne({ where: { public_key: public_key} });
                 res.status(200).json({
                     StatusCode: 200,
                     message: "Profile updated successfully.",
@@ -146,4 +148,4 @@ class ProfileController {
     }
 }
 
-export default new ProfileController;
+export default new ProfileController();

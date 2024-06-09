@@ -4,8 +4,10 @@ import sequelize from '../config/database.js';
 
 class User extends Model {
   static associate(models) {
-    User.hasOne(models.Profile, { foreignKey: 'public_key', sourceKey: 'public_key' });
-    User.hasMany(models.Issue, { foreignKey: 'public_key', sourceKey: 'public_key' });
+    // User.hasOne(models.Profile, {
+    //   foreignKey: '',
+    //   sourceKey: 'foreign_key'
+    // });
   }
 }
 
@@ -13,7 +15,7 @@ User.init({
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey:true
   },
   public_key: {
     type: DataTypes.STRING,
@@ -27,12 +29,12 @@ User.init({
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   }
 }, {
   sequelize,
-  modelName: 'user',
-  timestamps: true // Add timestamps (createdAt, updatedAt)
+  modelName: 'User',
+  timestamps: true
 });
 
 export default User;

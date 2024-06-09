@@ -5,13 +5,13 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey:true,
         type: Sequelize.INTEGER
       },
       public_key: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+       unique:true
       },
       name: {
         type: Sequelize.STRING,
@@ -37,10 +37,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
-      active_status: {
-        type: Sequelize.ENUM('0', '1'),
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -51,7 +47,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Profiles');
+  down: async  (queryInterface, Sequelize) => {
+     await queryInterface.dropTable('Profiles');
   }
 };

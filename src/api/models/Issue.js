@@ -1,10 +1,9 @@
 'use strict';
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import User from './User.js'; 
 class Issue extends Model {
   static associate(models) {
-    Issue.belongsTo(models.User, { foreignKey: 'public_key',sourceKey: 'public_key' }); // Adjusted association
+    Issue.belongsTo(models.User, { foreignKey: 'id',targetKey: 'id' }); 
   }
 };
 
@@ -12,17 +11,12 @@ Issue.init({
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey:true
   },
   public_key: {
     type: DataTypes.STRING,
     allowNull: false,
-    references: {
-      model: 'Users', // Corrected reference to 'Users' table
-      key: 'public_key'
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
+    unique: true
   },
   title: {
     type: DataTypes.STRING,

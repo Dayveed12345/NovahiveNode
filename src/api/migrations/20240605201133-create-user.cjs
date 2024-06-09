@@ -1,24 +1,29 @@
 'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Images', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey:true,
         type: Sequelize.INTEGER
       },
-      project_id: {
-        type: Sequelize.INTEGER,
+      public_key: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: 'Projects',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+       unique:true
       },
-      image_url: {
+      active_status: {
+        type: Sequelize.ENUM('0', '1'),
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      password: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -35,6 +40,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Images');
+    return queryInterface.dropTable('Users');
   }
 };

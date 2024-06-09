@@ -4,7 +4,7 @@ import sequelize from '../config/database.js';
 
 class Profile extends Model {
   static associate(models) {
-    Profile.belongsTo(models.User, { foreignKey: 'public_key', targetKey: 'public_key' });
+    Profile.belongsTo(models.User, { foreignKey: 'id', targetKey: 'id' });
   }
 }
 
@@ -12,12 +12,12 @@ Profile.init({
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey:true
   },
   public_key: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: true
   },
   name: {
     type: DataTypes.STRING,
@@ -51,7 +51,7 @@ Profile.init({
 }, {
   sequelize,
   modelName: 'Profile',
-  timestamps: false
+  timestamps: true
 });
 
 export default Profile;
